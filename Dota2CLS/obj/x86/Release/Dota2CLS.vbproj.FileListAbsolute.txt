@@ -11,3 +11,5 @@ c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x
 c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Release\Dota2CLS.xml
 c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Release\Dota2CLS.pdb
 C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\bin\Release\Dota2CLS.exe.config
+C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Release\GenerateResource.write.1.tlog

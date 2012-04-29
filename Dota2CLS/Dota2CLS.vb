@@ -16,6 +16,7 @@ Public Class Dota2CLS
         Dim startTime As DateTime = DateTime.Now
         Dim sr As New IO.StreamReader(OpenFileDialog1.OpenFile())                                               'Stream Reader to Read the large .txt
         TextBox2.Text = OpenFileDialog1.FileName.ToString()                                                     'Puts the Directory of the .txt in the disabled textbox
+        TextBox1.Hide()
 
         ''''''''''''''''''''''''''Fetch CombatLogNames''''''''''''''''''''''''''
         Do Until sr.EndOfStream = True                                                                          'Read whole File
@@ -65,7 +66,7 @@ Public Class Dota2CLS
             If (sr.EndOfStream = True) Then
 
                 ReDim GlobalArr(CombatLogNames.Length - 1)                                                      'Resizing the Global array to prime it for copying data
-                Array.Copy(CombatLogNames, GlobalArr, CombatLogNames.Length)
+                Array.Copy(CombatLogNames, GlobalArr, CombatLogNames.Length)                                    'Just copying the array to make it global
 
             End If
         Loop
@@ -78,46 +79,46 @@ Public Class Dota2CLS
         'Type 3: [Timestamp] "targetname" loses "inflictorname" buff.
         'Type 4: [Timestamp] "targetname" is killed by "attackersname"'s "inflictorname"
 
-        Dim sr2 As New IO.StreamReader(OpenFileDialog1.OpenFile())
+        Dim sr2 As New IO.StreamReader(OpenFileDialog1.OpenFile())                                              '2nd Pass for the .txt file
 
         Dim streambuff2 As String = ""
         Dim CombatLogData() As String
-        Dim Before1 As String = ""
-        Dim Keyword As String = ""
+        Dim Before1 As String = ""                                                                              'Need this variable to prevent 3rd pass for .txt file
+        Dim Keyword As String = ""                                                                              'Keyword that the program will search for the remaining lines
         Dim KFound As Integer = 0
 
-        Do Until sr2.EndOfStream = True
+        Do Until sr2.EndOfStream = True                                                                         'Big Loop until the end of file
 
-            Before1 = streambuff2
+            Before1 = streambuff2                                                                               'Before1 is the variable 1 line behind the current line that is being read
             streambuff2 = sr2.ReadLine()
 
-            If streambuff2.Contains("name: ""dota_combatlog""") Then
+            If streambuff2.Contains("name: ""dota_combatlog""") Then                                            'If the program finds the keyword, it gets the keyword to be searched
                 Keyword = Before1.Trim().Replace(" ", "")
                 KFound = 1
             End If
 
-            If (KFound = 1 And streambuff2.Contains(Keyword)) Then
+            If (KFound = 1 And streambuff2.Contains(Keyword)) Then                                              'When it finds a CombatLogName Dem_Packet it searches 10lines to get important data
                 Dim x As Integer = 10
                 Dim Line As String = sr2.ReadLine()
-                Dim type As Integer = 5
-                Dim SRCname As Integer = 0
-                Dim TGTname As Integer = 0
-                Dim ATKname As Integer = 0
-                Dim INFname As Integer = 0
-                Dim ATIname As Integer = 0
-                Dim TGIname As Integer = 0
-                Dim Val As Integer = 0
-                Dim HP As Integer = 0
-                Dim time As String = 0
-                Dim TGTSRCname As Integer = 0
+                Dim type As Integer = 5                                                                         'Type
+                Dim SRCname As Integer = 0                                                                      'Sourcename
+                Dim TGTname As Integer = 0                                                                      'Targetname
+                Dim ATKname As Integer = 0                                                                      'Attackername
+                Dim INFname As Integer = 0                                                                      'Inflictorname
+                Dim ATIname As Integer = 0                                                                      'AttackerIllusionname
+                Dim TGIname As Integer = 0                                                                      'TargetIllusionname
+                Dim Val As Integer = 0                                                                          'Value
+                Dim HP As Integer = 0                                                                           'Health
+                Dim time As String = 0                                                                          'Timestamp
+                Dim TGTSRCname As Integer = 0                                                                   'TargetSourcename
 
-                type = CInt(Line.Chars(Line.IndexOf(":") + 2).ToString)
+                type = CInt(Line.Chars(Line.IndexOf(":") + 2).ToString)                                         'Type determine what Line is gonna be outputted in Textbox
 
-                While (x > 0)
+                While (x > 0)                                                                                   '10 loops for 10 lines
 
                     Select Case x
                         Case 10
-                            SRCname = CInt(sr2.ReadLine().Substring(13))
+                            SRCname = CInt(sr2.ReadLine().Substring(13))                                        'I'm lazy that's why I use substring
                         Case 9
                             TGTname = CInt(sr2.ReadLine().Substring(13))
                         Case 8
@@ -145,7 +146,7 @@ Public Class Dota2CLS
                     x -= 1
                 End While
 
-                Select Case type
+                Select Case type                                                                                'This Case now Translate the Dem_Packet to Combat Log Sentence
                     Case 0
                         TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & " hits " & GlobalArr(TGTname) _
                         & " with " & GlobalArr(INFname) & " for " & Val.ToString & " damage (" & (HP + Val).ToString & "->" & HP.ToString _
@@ -168,12 +169,16 @@ Public Class Dota2CLS
                 End Select
             End If
 
-
+            If sr2.EndOfStream = True Then
+                If KFound = 0 Then
+                    MsgBox("Invalid File")                                                                        'Just to catch if file is valid or not
+                End If
+            End If
         Loop
         sr2.Close()
         Label2.Text = GlobalArr.Length & " CombatLogEntries"
         Dim executionTime As TimeSpan = DateTime.Now - startTime
-        Label3.Text = ("Elapsed Time: " & executionTime.Minutes.ToString() & " minutes and " & executionTime.Seconds.ToString() & " seconds.")
+        Label3.Text = ("Elapsed Time: " & executionTime.Minutes.ToString() & " minutes and " & executionTime.Seconds.ToString() & " seconds.") 'Computes Execution time
         TextBox1.Show()
     End Sub
 
