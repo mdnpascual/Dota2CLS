@@ -2,3 +2,12 @@ Dota 2 Combat Log Simulator
 ===========================
 
 A very crude program creating a Combat Log simulator from reading a dota 2 demo file (currently only .txt file)
+You need to create the output file of the dota 2 demo by running Valve's Replay Parser (http://media.steampowered.com/apps/dota2/dev/demoinfo2.zip)
+
+Run demo2info.exe in the command line in this following format
+demo2info.exe [gameid#].dem > [gameid#].txt
+
+This will show all entries that Combat Log will output removing the 120sec limit of the in-game Combat log.
+THis will be updated in the future to automatically extract .dem fiels to .txt files and showing the Combat Log in 2 clicks
+
+[WORK IN PROGRESS]
