@@ -6,7 +6,7 @@ Public Class Dota2CLS
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         OpenFileDialog1.Title = "Please Select a File"
         OpenFileDialog1.InitialDirectory = "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\dota\replays" 'Default Location
-
+        TextBox1.Clear()
         OpenFileDialog1.ShowDialog()
 
     End Sub
@@ -64,7 +64,7 @@ Public Class Dota2CLS
 
             If (sr.EndOfStream = True) Then
 
-                ReDim GlobalArr(CombatLogNames.Length - 1)
+                ReDim GlobalArr(CombatLogNames.Length - 1)                                                      'Resizing the Global array to prime it for copying data
                 Array.Copy(CombatLogNames, GlobalArr, CombatLogNames.Length)
 
             End If
@@ -148,11 +148,11 @@ Public Class Dota2CLS
                 Select Case type
                     Case 0
                         TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & " hits " & GlobalArr(TGTname) _
-                        & " with " & GlobalArr(INFname) & " for " & Val.ToString & " damage (???->" & HP.ToString _
+                        & " with " & GlobalArr(INFname) & " for " & Val.ToString & " damage (" & (HP + Val).ToString & "->" & HP.ToString _
                         & ")." & vbNewLine)
                     Case 1
                         TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & "'s " & GlobalArr(INFname) _
-                        & " heals " & GlobalArr(TGTname) & " for " & Val.ToString & " health (???->" & HP.ToString _
+                        & " heals " & GlobalArr(TGTname) & " for " & Val.ToString & " health (" & (HP - Val).ToString & "->" & HP.ToString _
                         & ")." & vbNewLine)
                     Case 2
                         TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " receives " & GlobalArr(INFname) _
@@ -163,15 +163,18 @@ Public Class Dota2CLS
                     Case 4
                         TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " is killed by " & _
                         GlobalArr(ATKname) & "'s " & GlobalArr(INFname) & "." & vbNewLine)
+                    Case Else
+
                 End Select
             End If
 
 
         Loop
-
+        sr2.Close()
         Label2.Text = GlobalArr.Length & " CombatLogEntries"
         Dim executionTime As TimeSpan = DateTime.Now - startTime
         Label3.Text = ("Elapsed Time: " & executionTime.Minutes.ToString() & " minutes and " & executionTime.Seconds.ToString() & " seconds.")
+        TextBox1.Show()
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
@@ -186,5 +189,9 @@ Public Class Dota2CLS
         End While
 
         Form1.Show()
+    End Sub
+
+    Private Sub Dota2CLS_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        TextBox1.Hide()
     End Sub
 End Class

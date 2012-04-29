@@ -28,15 +28,16 @@ Partial Class Dota2CLS
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox1
         '
         Me.TextBox1.Location = New System.Drawing.Point(13, 98)
+        Me.TextBox1.MaxLength = 0
         Me.TextBox1.Multiline = True
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
@@ -86,14 +87,14 @@ Partial Class Dota2CLS
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Details"
         '
-        'Label2
+        'Label3
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(6, 24)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(116, 13)
-        Me.Label2.TabIndex = 0
-        Me.Label2.Text = "CombatLogEntry Count"
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(6, 50)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(77, 13)
+        Me.Label3.TabIndex = 2
+        Me.Label3.Text = "Elapsed Time: "
         '
         'Button2
         '
@@ -104,14 +105,14 @@ Partial Class Dota2CLS
         Me.Button2.Text = "Show Me"
         Me.Button2.UseVisualStyleBackColor = True
         '
-        'Label3
+        'Label2
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(6, 50)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(77, 13)
-        Me.Label3.TabIndex = 2
-        Me.Label3.Text = "Elapsed Time: "
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(6, 24)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(116, 13)
+        Me.Label2.TabIndex = 0
+        Me.Label2.Text = "CombatLogEntry Count"
         '
         'Dota2CLS
         '
