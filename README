@@ -1,0 +1,3 @@
+Dota 2 Combat Log Simulator 
+
+A very crude program creating a Combat Log simulator from reading a dota 2 demo file (currently only .txt file)
