@@ -10,15 +10,22 @@ Public Class Dota2CLS
 
     End Sub
 
-    Private Sub OpenFileDialog1_FileOk(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk
+    Private Sub OpenFileDialog1_FileOk(ByVal sender As System.Object, ByVal e As  _
+        System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk
         Dim sr As New IO.StreamReader(OpenFileDialog1.OpenFile())                                               'Stream Reader to Read the large .txt
         TextBox2.Text = OpenFileDialog1.FileName.ToString()                                                     'Puts the Directory of the .txt in the disabled textbox
-
+        Dim GlobalArr() As String
 
         ''''''''''''''''''''''''''Fetch CombatLogNames''''''''''''''''''''''''''
         Do Until sr.EndOfStream = True                                                                          'Read whole File
             Dim streambuff As String = sr.ReadLine                                                              'Array to Store CombatLogNames
             Dim CombatLogNames() As String
+            'Try
+            'Array.Clear(CombatLogNames, 0, CombatLogNames.Length)
+            'Catch ex As Exception
+
+            'End Try
+
 
             If streambuff.Contains("CombatLogNames flags:0x1") Then                                             'Keyowrod to Filter CombatLogNames Packets in the .txt
 
@@ -41,8 +48,9 @@ Public Class Dota2CLS
                         Else
 
                             ReDim Preserve CombatLogNames(x)                                                    'Resizes the array while preserving the values
-                            CombatLogNames(x) = streambuff.Trim.Remove(streambuff.IndexOf("(") - 5).Remove(0, streambuff.Trim.Remove(streambuff.IndexOf("(")).IndexOf("'")) 'Additional filtering to get only valuable data
-                            'String is Removed of Spaces (trim) then removed "0 bytes" (first remove) and removal of #xx value (2nd remove)
+                            CombatLogNames(x) = streambuff.Trim.Remove(streambuff.IndexOf("(") - 5).Remove(0, _
+                            streambuff.Trim.Remove(streambuff.IndexOf("(")).IndexOf("'"))                       'Additional filtering to get only valuable data
+
                             x += 1                                                                              '+1 to Array counter
 
                         End If
@@ -56,10 +64,12 @@ Public Class Dota2CLS
             If (sr.EndOfStream = True) Then                                                                     'Used to flush CombatLogNames list in GUI
 
                 Dim x = 0                                                                                       'Counter
+                ReDim GlobalArr(CombatLogNames.Length + 1)
+                Array.Copy(CombatLogNames, GlobalArr, CombatLogNames.Length)
 
                 While (x <> CombatLogNames.Length)                                                              'Loops the whole array
 
-                    TextBox1.AppendText("#" & x & ": " & CombatLogNames(x) & vbNewLine)                         'Displays the string in textbox 
+                    'TextBox1.AppendText("#" & x & ": " & CombatLogNames(x) & vbNewLine)                         'Displays the string in textbox 
                     x += 1
 
                 End While
@@ -72,7 +82,7 @@ Public Class Dota2CLS
         'Type 1: [Timestamp] "attackername"'s "inflictorname" heals "targetname" for "value" health (???->health)
         'Type 2: [Timestamp] "targetname " receives "inflictorname" debuff from "attackername"
         'Type 3: [Timestamp] "targetname" loses "inflictorname" buff.
-        'Type 5: [Timestamp] "targetname" is killed by "attackersname"'s "inflictorname"
+        'Type 4: [Timestamp] "targetname" is killed by "attackersname"'s "inflictorname"
 
         Dim sr2 As New IO.StreamReader(OpenFileDialog1.OpenFile())
 
@@ -93,21 +103,73 @@ Public Class Dota2CLS
             End If
 
             If (KFound = 1 And streambuff2.Contains(Keyword)) Then
-                Dim x As Integer = 11
+                Dim x As Integer = 10
                 Dim Line As String = sr2.ReadLine()
                 Dim type As Integer = 0
+                Dim SRCname As Integer = 0
+                Dim TGTname As Integer = 0
+                Dim ATKname As Integer = 0
+                Dim INFname As Integer = 0
+                Dim ATIname As Integer = 0
+                Dim TGIname As Integer = 0
+                Dim Val As Integer = 0
+                Dim HP As Integer = 0
+                Dim time As String = 0
+                Dim TGTSRCname As Integer = 0
+
+                type = CInt(Line.Chars(Line.IndexOf(":") + 2).ToString)
 
                 While (x > 0)
-                    type = CInt(Line.Chars(Line.IndexOf(":") + 2).ToString)
 
-                    Select Case type
-
+                    Select Case x
+                        Case 10
+                            SRCname = CInt(sr2.ReadLine().Substring(13))
+                        Case 9
+                            TGTname = CInt(sr2.ReadLine().Substring(13))
+                        Case 8
+                            ATKname = CInt(sr2.ReadLine().Substring(15))
+                        Case 7
+                            INFname = CInt(sr2.ReadLine().Substring(16))
+                        Case 6
+                            ATIname = CInt(sr2.ReadLine().Substring(19))
+                        Case 5
+                            TGIname = CInt(sr2.ReadLine().Substring(17))
+                        Case 4
+                            Val = CInt(sr2.ReadLine().Substring(8))
+                        Case 3
+                            HP = CInt(sr2.ReadLine().Substring(9))
+                        Case 2
+                            Dim subparts() As String = sr2.ReadLine().Substring(12).Split(".")
+                            time = (Math.Floor((CInt(subparts(0)) / 60)).ToString & ":" & (CInt(subparts(0)) _
+                            Mod 60).ToString("00") & "." & (subparts(1).Remove(2).ToString))
+                        Case 1
+                            TGTSRCname = CInt(sr2.ReadLine().Substring(19))
+                        Case Else
+                            MsgBox("CODER FAIL, ERROR? LOLOLOLOL")
                     End Select
-
 
                     x -= 1
                 End While
 
+                Select Case type
+                    Case 0
+                        TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & " hits " & GlobalArr(TGTname) _
+                        & " with " & GlobalArr(INFname) & " for " & Val.ToString & " damage (???->)" & HP.ToString _
+                        & "." & vbNewLine)
+                    Case 1
+                        TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & "'s " & GlobalArr(INFname) _
+                        & " heals " & GlobalArr(TGTname) & " for " & Val.ToString & " health (???->)" & HP.ToString _
+                        & "." & vbNewLine)
+                    Case 2
+                        TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " receives " & GlobalArr(INFname) _
+                        & " debuff from " & GlobalArr(ATKname) & "." & vbNewLine)
+                    Case 3
+                        TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " loses " & GlobalArr(INFname) _
+                        & " buff.")
+                    Case 4
+                        TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " is killed by " & _
+                        GlobalArr(ATKname) & "'s " & GlobalArr(INFname) & ".")
+                End Select
             End If
 
 
