@@ -59,7 +59,7 @@ Public Class Dota2CLS
 
                 While (x <> CombatLogNames.Length)                                                              'Loops the whole array
 
-                    'TextBox1.AppendText("#" & x & ": " & CombatLogNames(x) & vbNewLine)                         'Displays the string in textbox 
+                    TextBox1.AppendText("#" & x & ": " & CombatLogNames(x) & vbNewLine)                         'Displays the string in textbox 
                     x += 1
 
                 End While
@@ -68,22 +68,45 @@ Public Class Dota2CLS
         ''''''''''''''''''''''''''Fetch CombatLogNames''''''''''''''''''''''''''
         sr.Close()
         ''''''''''''''''''''''''''Fetch CombatLogEntries''''''''''''''''''''''''''
-        '["timestamp"] "attackername" hits "targetname" with "inflictorname" for "value" damage (???->"health")
+        'Type 0: ["timestamp"] "attackername" hits "targetname" with "inflictorname" for "value" damage (???->"health")
+        'Type 1: [Timestamp] "attackername"'s "inflictorname" heals "targetname" for "value" health (???->health)
+        'Type 2: [Timestamp] "targetname " receives "inflictorname" debuff from "attackername"
+        'Type 3: [Timestamp] "targetname" loses "inflictorname" buff.
+        'Type 5: [Timestamp] "targetname" is killed by "attackersname"'s "inflictorname"
 
         Dim sr2 As New IO.StreamReader(OpenFileDialog1.OpenFile())
 
-        Dim streambuff As String = ""
+        Dim streambuff2 As String = ""
         Dim CombatLogData() As String
         Dim Before1 As String = ""
         Dim Keyword As String = ""
+        Dim KFound As Integer = 0
 
-        Do Until sr.EndOfStream = True
+        Do Until sr2.EndOfStream = True
 
-            Before1 = streambuff
-            streambuff = sr.ReadLine()
+            Before1 = streambuff2
+            streambuff2 = sr2.ReadLine()
 
-            If streambuff.Contains("name: ""dota_combatlog""") Then
+            If streambuff2.Contains("name: ""dota_combatlog""") Then
+                Keyword = Before1.Trim().Replace(" ", "")
+                KFound = 1
+            End If
 
+            If (KFound = 1 And streambuff2.Contains(Keyword)) Then
+                Dim x As Integer = 11
+                Dim Line As String = sr2.ReadLine()
+                Dim type As Integer = 0
+
+                While (x > 0)
+                    type = CInt(Line.Chars(Line.IndexOf(":") + 2).ToString)
+
+                    Select Case type
+
+                    End Select
+
+
+                    x -= 1
+                End While
 
             End If
 
