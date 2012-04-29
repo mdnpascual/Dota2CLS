@@ -9,3 +9,4 @@ c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x
 c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Debug\Dota2CLS.xml
 c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Debug\Dota2CLS.pdb
 c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Debug\Dota2CLS.Dota2CLS.resources
+c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Debug\Dota2CLS.Form1.resources

@@ -1,6 +1,7 @@
 ﻿
 Public Class Dota2CLS
 
+    Dim GlobalArr() As String
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         OpenFileDialog1.Title = "Please Select a File"
@@ -12,9 +13,9 @@ Public Class Dota2CLS
 
     Private Sub OpenFileDialog1_FileOk(ByVal sender As System.Object, ByVal e As  _
         System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk
+        Dim startTime As DateTime = DateTime.Now
         Dim sr As New IO.StreamReader(OpenFileDialog1.OpenFile())                                               'Stream Reader to Read the large .txt
         TextBox2.Text = OpenFileDialog1.FileName.ToString()                                                     'Puts the Directory of the .txt in the disabled textbox
-        Dim GlobalArr() As String
 
         ''''''''''''''''''''''''''Fetch CombatLogNames''''''''''''''''''''''''''
         Do Until sr.EndOfStream = True                                                                          'Read whole File
@@ -61,18 +62,11 @@ Public Class Dota2CLS
 
             End If
 
-            If (sr.EndOfStream = True) Then                                                                     'Used to flush CombatLogNames list in GUI
+            If (sr.EndOfStream = True) Then
 
-                Dim x = 0                                                                                       'Counter
-                ReDim GlobalArr(CombatLogNames.Length + 1)
+                ReDim GlobalArr(CombatLogNames.Length - 1)
                 Array.Copy(CombatLogNames, GlobalArr, CombatLogNames.Length)
 
-                While (x <> CombatLogNames.Length)                                                              'Loops the whole array
-
-                    'TextBox1.AppendText("#" & x & ": " & CombatLogNames(x) & vbNewLine)                         'Displays the string in textbox 
-                    x += 1
-
-                End While
             End If
         Loop
         ''''''''''''''''''''''''''Fetch CombatLogNames''''''''''''''''''''''''''
@@ -105,7 +99,7 @@ Public Class Dota2CLS
             If (KFound = 1 And streambuff2.Contains(Keyword)) Then
                 Dim x As Integer = 10
                 Dim Line As String = sr2.ReadLine()
-                Dim type As Integer = 0
+                Dim type As Integer = 5
                 Dim SRCname As Integer = 0
                 Dim TGTname As Integer = 0
                 Dim ATKname As Integer = 0
@@ -154,27 +148,43 @@ Public Class Dota2CLS
                 Select Case type
                     Case 0
                         TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & " hits " & GlobalArr(TGTname) _
-                        & " with " & GlobalArr(INFname) & " for " & Val.ToString & " damage (???->)" & HP.ToString _
-                        & "." & vbNewLine)
+                        & " with " & GlobalArr(INFname) & " for " & Val.ToString & " damage (???->" & HP.ToString _
+                        & ")." & vbNewLine)
                     Case 1
                         TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & "'s " & GlobalArr(INFname) _
-                        & " heals " & GlobalArr(TGTname) & " for " & Val.ToString & " health (???->)" & HP.ToString _
-                        & "." & vbNewLine)
+                        & " heals " & GlobalArr(TGTname) & " for " & Val.ToString & " health (???->" & HP.ToString _
+                        & ")." & vbNewLine)
                     Case 2
                         TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " receives " & GlobalArr(INFname) _
-                        & " debuff from " & GlobalArr(ATKname) & "." & vbNewLine)
+                        & " from " & GlobalArr(ATKname) & "." & vbNewLine)
                     Case 3
                         TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " loses " & GlobalArr(INFname) _
-                        & " buff.")
+                        & " ." & vbNewLine)
                     Case 4
                         TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " is killed by " & _
-                        GlobalArr(ATKname) & "'s " & GlobalArr(INFname) & ".")
+                        GlobalArr(ATKname) & "'s " & GlobalArr(INFname) & "." & vbNewLine)
                 End Select
             End If
 
 
         Loop
 
+        Label2.Text = GlobalArr.Length & " CombatLogEntries"
+        Dim executionTime As TimeSpan = DateTime.Now - startTime
+        Label3.Text = ("Elapsed Time: " & executionTime.Minutes.ToString() & " minutes and " & executionTime.Seconds.ToString() & " seconds.")
+    End Sub
 
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+
+        Dim x = 0                                                                                       'Counter
+
+        While (x <> GlobalArr.Length)                                                              'Loops the whole array
+
+            Form1.TextBox1.AppendText(GlobalArr(x) & vbNewLine)
+            x += 1
+
+        End While
+
+        Form1.Show()
     End Sub
 End Class
