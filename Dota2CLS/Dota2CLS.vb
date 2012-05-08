@@ -22,6 +22,8 @@ Public Class Dota2CLS
         Do Until sr.EndOfStream = True                                                                          'Read whole File
             Dim streambuff As String = sr.ReadLine                                                              'Array to Store CombatLogNames
             Dim CombatLogNames() As String
+            Dim searcher As String
+
             'Try
             'Array.Clear(CombatLogNames, 0, CombatLogNames.Length)
             'Catch ex As Exception
@@ -50,9 +52,11 @@ Public Class Dota2CLS
                         Else
 
                             ReDim Preserve CombatLogNames(x)                                                    'Resizes the array while preserving the values
-                            CombatLogNames(x) = streambuff.Trim.Remove(streambuff.IndexOf("(") - 5).Remove(0, _
+                            'CombatLogNames(x) = streambuff.Trim.Remove(streambuff.IndexOf("(") - 5).Remove(0, _
+                            'streambuff.Trim.Remove(streambuff.IndexOf("(")).IndexOf("'"))     
+                            searcher = streambuff.Trim.Remove(streambuff.IndexOf("(") - 5).Remove(0, _
                             streambuff.Trim.Remove(streambuff.IndexOf("(")).IndexOf("'"))                       'Additional filtering to get only valuable data
-
+                            CombatLogNames(x) = search(searcher)
                             x += 1                                                                              '+1 to Array counter
 
                         End If
