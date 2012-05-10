@@ -22,18 +22,18 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.SearchableTextBox1 = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
-        'TextBox1
+        'SearchableTextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(13, 13)
-        Me.TextBox1.Multiline = True
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TextBox1.Size = New System.Drawing.Size(531, 503)
-        Me.TextBox1.TabIndex = 0
+        Me.SearchableTextBox1.Location = New System.Drawing.Point(13, 13)
+        Me.SearchableTextBox1.Multiline = True
+        Me.SearchableTextBox1.Name = "SearchableTextBox1"
+        Me.SearchableTextBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.SearchableTextBox1.Size = New System.Drawing.Size(531, 503)
+        Me.SearchableTextBox1.TabIndex = 0
         '
         'Button1
         '
@@ -50,13 +50,13 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(556, 557)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.SearchableTextBox1)
         Me.Name = "Form1"
         Me.Text = "CombatLog Entries"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents SearchableTextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents Button1 As System.Windows.Forms.Button
 End Class

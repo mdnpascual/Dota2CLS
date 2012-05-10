@@ -11,7 +11,7 @@
             output = input
         ElseIf (input.Contains("neutral") Or input.Contains("badguys") Or input.Contains("goodguys") Or input.Contains("courier") Or input.Contains("roshan") Or _
                 input.Contains("fountain")) Then
-            output = input
+            output = NPCfunc(input)
         ElseIf input.Contains("ALLSKILSHERE") Then
             output = input
         Else
@@ -199,6 +199,79 @@
         Return Heroesout((Array.FindIndex(Heroes, Function(x) x.Contains(input)))).ToString
 
     End Function
+
+    Private Function NPCfunc(ByVal input As String)
+        'Heroes
+        Dim NPC() As String = {"'npc_dota_creep_badguys_ranged'", _
+                               "'npc_dota_creep_badguys_ranged_upgraded'", _
+                               "'npc_dota_creep_goodguys_ranged'", _
+                               "'npc_dota_creep_goodguys_ranged_upgraded'", _
+                               "'npc_dota_creep_badguys_melee'", _
+                               "'npc_dota_creep_badguys_melee_upgraded'", _
+                               "'npc_dota_creep_goodguys_melee'", _
+                               "'npc_dota_creep_goodguys_melee_upgraded'", _
+                               "'npc_dota_goodguys_tower1_top'", _
+                               "'npc_dota_goodguys_tower1_mid'", _
+                               "'npc_dota_goodguys_tower1_bot'", _
+                               "'npc_dota_goodguys_tower2_top'", _
+                               "'npc_dota_goodguys_tower2_mid'", _
+                               "'npc_dota_goodguys_tower2_bot'", _
+                               "'npc_dota_goodguys_tower3_top'", _
+                               "'npc_dota_goodguys_tower3_mid'", _
+                               "'npc_dota_goodguys_tower3_bot'", _
+                               "'npc_dota_goodguys_tower4'", _
+                               "'npc_dota_badguys_tower1_top'", _
+                               "'npc_dota_badguys_tower1_mid'", _
+                               "'npc_dota_badguys_tower1_bot'", _
+                               "'npc_dota_badguys_tower2_top'", _
+                               "'npc_dota_badguys_tower2_mid'", _
+                               "'npc_dota_badguys_tower2_bot'", _
+                               "'npc_dota_badguys_tower3_top'", _
+                               "'npc_dota_badguys_tower3_mid'", _
+                               "'npc_dota_badguys_tower3_bot'", _
+                               "'npc_dota_badguys_tower4'"
+                               }
+
+
+
+        Dim NPCout() As String = {"Dire Range Creep", _
+                                  "Dire Range Mega Creep", _
+                                  "Radiant Range Creep", _
+                                  "Radiant Range Mega Creep", _
+                                  "Dire Melee Creep", _
+                                  "Dire Melee Mega Creep", _
+                                  "Radiant Melee Creep", _
+                                  "Radiant Melee Mega Creep", _
+                                  "Radiant Tower 1 Top", _
+                                  "Radiant Tower 1 Mid", _
+                                  "Radiant Tower 1 Bot", _
+                                  "Radiant Tower 2 Top", _
+                                  "Radiant Tower 2 Mid", _
+                                  "Radiant Tower 2 Bot", _
+                                  "Radiant Tower 3 Top", _
+                                  "Radiant Tower 3 Mid", _
+                                  "Radiant Tower 3 Bot", _
+                                  "Radiant Tower 4", _
+                                  "Dire Tower 1 Top", _
+                                  "Dire Tower 1 Mid", _
+                                  "Dire Tower 1 Bot", _
+                                  "Dire Tower 2 Top", _
+                                  "Dire Tower 2 Mid", _
+                                  "Dire Tower 2 Bot", _
+                                  "Dire Tower 3 Top", _
+                                  "Dire Tower 3 Mid", _
+                                  "Dire Tower 3 Bot", _
+                                  "Dire Tower 4"
+                                  }
+        If ((Array.FindIndex(NPC, Function(x) x.Contains(input))) = -1) Then
+            Return input
+        Else
+            Return NPCout(((Array.FindIndex(NPC, Function(x) x.Contains(input))) = -1)).ToString
+        End If
+
+
+    End Function
+
 
 
 End Module

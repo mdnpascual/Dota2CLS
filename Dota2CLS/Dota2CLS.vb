@@ -6,7 +6,7 @@ Public Class Dota2CLS
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         OpenFileDialog1.Title = "Please Select a File"
         OpenFileDialog1.InitialDirectory = "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\dota\replays" 'Default Location
-        TextBox1.Clear()
+        SearchableRichTextBox1.Clear()
         OpenFileDialog1.ShowDialog()
 
     End Sub
@@ -16,7 +16,18 @@ Public Class Dota2CLS
         Dim startTime As DateTime = DateTime.Now
         Dim sr As New IO.StreamReader(OpenFileDialog1.OpenFile())                                               'Stream Reader to Read the large .txt
         TextBox2.Text = OpenFileDialog1.FileName.ToString()                                                     'Puts the Directory of the .txt in the disabled textbox
-        TextBox1.Hide()
+
+        If CheckBox1.Checked = True Then
+            TextBox1.Hide()
+        Else
+            SearchableRichTextBox1.Hide()
+        End If
+
+        If CheckBox2.Checked = False Then
+            SearchableRichTextBox1.Hide()
+            TextBox1.Hide()
+        End If
+
 
         ''''''''''''''''''''''''''Fetch CombatLogNames''''''''''''''''''''''''''
         Do Until sr.EndOfStream = True                                                                          'Read whole File
@@ -104,7 +115,7 @@ Public Class Dota2CLS
             If (KFound = 1 And streambuff2.Contains(Keyword)) Then                                              'When it finds a CombatLogName Dem_Packet it searches 10lines to get important data
                 Dim x As Integer = 10
                 Dim Line As String = sr2.ReadLine()
-                Dim type As Integer = 5                                                                         'Type
+                Dim type As Integer = -1                                                                         'Type
                 Dim SRCname As Integer = 0                                                                      'Sourcename
                 Dim TGTname As Integer = 0                                                                      'Targetname
                 Dim ATKname As Integer = 0                                                                      'Attackername
@@ -150,27 +161,61 @@ Public Class Dota2CLS
                     x -= 1
                 End While
 
-                Select Case type                                                                                'This Case now Translate the Dem_Packet to Combat Log Sentence
-                    Case 0
-                        TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & " hits " & GlobalArr(TGTname) _
-                        & " with " & GlobalArr(INFname) & " for " & Val.ToString & " damage (" & (HP + Val).ToString & "->" & HP.ToString _
-                        & ")." & vbNewLine)
-                    Case 1
-                        TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & "'s " & GlobalArr(INFname) _
-                        & " heals " & GlobalArr(TGTname) & " for " & Val.ToString & " health (" & (HP - Val).ToString & "->" & HP.ToString _
-                        & ")." & vbNewLine)
-                    Case 2
-                        TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " receives " & GlobalArr(INFname) _
-                        & " from " & GlobalArr(ATKname) & "." & vbNewLine)
-                    Case 3
-                        TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " loses " & GlobalArr(INFname) _
-                        & " ." & vbNewLine)
-                    Case 4
-                        TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " is killed by " & _
-                        GlobalArr(ATKname) & "'s " & GlobalArr(INFname) & "." & vbNewLine)
-                    Case Else
+                If CheckBox1.Checked = True Then
+                    Select Case type
+                        Case 0
+                            AddStringFastest("[" & time & "] " & GlobalArr(ATKname) & " hits " & GlobalArr(TGTname) _
+                            & " with ")
+                            AppendText(GlobalArr(INFname), Color.FromArgb(255, 175, 217, 216))
+                            AddStringFastest(" for ")
+                            AppendText(Val.ToString, Color.DarkRed)
+                            AddStringFastest(" damage (" & (HP + Val).ToString & "->" & HP.ToString _
+                            & ")." & vbNewLine)
+                        Case 1
+                            AddStringFastest("[" & time & "] " & GlobalArr(ATKname) & "'s ")
+                            AppendText(GlobalArr(INFname), Color.FromArgb(255, 175, 217, 216))
+                            AddStringFastest(" heals " & GlobalArr(TGTname) & " for ")
+                            AppendText(Val.ToString, Color.FromArgb(255, 93, 168, 83))
+                            AddStringFastest(" health (" & (HP - Val).ToString & "->" & HP.ToString _
+                            & ")." & vbNewLine)
+                        Case 2
+                            AppendText("[" & time & "] " & GlobalArr(TGTname) & " receives " & GlobalArr(INFname) _
+                            & " from " & GlobalArr(ATKname) & "." & vbNewLine, Color.FromArgb(255, 174, 174, 202))
+                        Case 3
+                            AppendText(("[" & time & "] " & GlobalArr(TGTname) & " loses " & GlobalArr(INFname) _
+                            & " ." & vbNewLine), Color.FromArgb(255, 174, 174, 202))
+                        Case 4
+                            AppendText("[" & time & "] " & GlobalArr(TGTname) & " is killed by " & _
+                            GlobalArr(ATKname) & "'s " & GlobalArr(INFname) & "." & vbNewLine, Color.FromArgb(255, 228, 226, 188))
+                        Case Else
 
-                End Select
+                    End Select
+                Else
+                    Select Case type                                                                                'This Case now Translate the Dem_Packet to Combat Log Sentence
+                        Case 0
+                            TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & " hits " & GlobalArr(TGTname) _
+                            & " with " & GlobalArr(INFname) & " for " & Val.ToString & " damage (" & (HP + Val).ToString & "->" & HP.ToString _
+                            & ")." & vbNewLine)
+                        Case 1
+                            TextBox1.AppendText("[" & time & "] " & GlobalArr(ATKname) & "'s " & GlobalArr(INFname) _
+                            & " heals " & GlobalArr(TGTname) & " for " & Val.ToString & " health (" & (HP - Val).ToString & "->" & HP.ToString _
+                            & ")." & vbNewLine)
+                        Case 2
+                            TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " receives " & GlobalArr(INFname) _
+                            & " from " & GlobalArr(ATKname) & "." & vbNewLine)
+                        Case 3
+                            TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " loses " & GlobalArr(INFname) _
+                            & " ." & vbNewLine)
+                        Case 4
+                            TextBox1.AppendText("[" & time & "] " & GlobalArr(TGTname) & " is killed by " & _
+                            GlobalArr(ATKname) & "'s " & GlobalArr(INFname) & "." & vbNewLine)
+                        Case Else
+
+                    End Select
+
+                End If
+
+                
             End If
 
             If sr2.EndOfStream = True Then
@@ -183,7 +228,12 @@ Public Class Dota2CLS
         Label2.Text = GlobalArr.Length & " CombatLogEntries"
         Dim executionTime As TimeSpan = DateTime.Now - startTime
         Label3.Text = ("Elapsed Time: " & executionTime.Minutes.ToString() & " minutes and " & executionTime.Seconds.ToString() & " seconds.") 'Computes Execution time
-        TextBox1.Show()
+
+        If CheckBox1.Checked = True Then
+            SearchableRichTextBox1.Show()
+        Else
+            TextBox1.Show()
+        End If
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
@@ -192,7 +242,7 @@ Public Class Dota2CLS
 
         While (x <> GlobalArr.Length)                                                              'Loops the whole array
 
-            Form1.TextBox1.AppendText(GlobalArr(x) & vbNewLine)
+            Form1.SearchableTextBox1.AppendText(GlobalArr(x) & vbNewLine)
             x += 1
 
         End While
@@ -201,6 +251,16 @@ Public Class Dota2CLS
     End Sub
 
     Private Sub Dota2CLS_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        TextBox1.Hide()
+
     End Sub
+
+
+    Private Sub TextBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
+        If e.KeyChar = Convert.ToChar(1) Then
+            DirectCast(sender, TextBox).SelectAll()
+            e.Handled = True
+        End If
+
+    End Sub
+
 End Class

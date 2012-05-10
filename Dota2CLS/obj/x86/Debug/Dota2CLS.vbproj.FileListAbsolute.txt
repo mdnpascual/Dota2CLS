@@ -11,5 +11,4 @@ c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x
 c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Debug\Dota2CLS.Dota2CLS.resources
 c:\users\quad 5750\documents\visual studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Debug\Dota2CLS.Form1.resources
 C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\bin\Debug\Dota2CLS.exe.config
-C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Debug\GenerateResource.read.1.tlog
-C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\bin\Debug\SearchableControls.dll

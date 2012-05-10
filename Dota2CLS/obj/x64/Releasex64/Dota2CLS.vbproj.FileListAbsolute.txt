@@ -7,3 +7,4 @@ C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x
 C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\bin\x64\Releasex64\Dota2CLS.exe.config
 C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x64\Releasex64\GenerateResource.read.1.tlog
 C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\obj\x64\Releasex64\GenerateResource.write.1.tlog
+C:\Users\Quad 5750\Documents\Visual Studio 2010\Projects\Dota2CLS\Dota2CLS\bin\x64\Releasex64\SearchableControls.dll
